@@ -1,11 +1,12 @@
 <script>
+  	import { onMount, onDestroy, beforeUpdate, afterUpdate } from 'svelte';
     import Header from '../Components/Header.svelte';
     import Footer from '../Components/Footer.svelte';
     import {charities} from '../Data/charities';
 
 
     export let params;
-    let data;
+    let data, seconds = 0;
 
     function getCharity(id){
         return charities.find(function (charity){
@@ -13,7 +14,23 @@
         })
     }
 
-    data = getCharity(params.id);
+    onMount(function(){
+      setTimeout(function(){
+        data = getCharity(params.id);
+    }, 2500)
+    });
+
+    const tick = setInterval(function() {
+    seconds += 1; 
+    console.log(seconds)
+    }, 1000);
+
+    onDestroy(function(){
+      console.log(onDestroy);
+      clearInterval(tick)
+    })
+
+
 </script>
 
 <style>
